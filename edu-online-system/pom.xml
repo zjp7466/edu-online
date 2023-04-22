@@ -9,14 +9,12 @@
         <relativePath>../edu-online-parent</relativePath>
     </parent>
 
-    <artifactId>edu-online-content</artifactId>
-
+    <artifactId>edu-online-system</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>edu-online-content-api</module>
-        <module>edu-online-content-service</module>
-        <module>edu-online-content-model</module>
+        <module>edu-online-system-api</module>
+        <module>edu-online-system-service</module>
+        <module>edu-online-system-model</module>
     </modules>
-
 </project>

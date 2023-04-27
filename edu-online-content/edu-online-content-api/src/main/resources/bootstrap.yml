@@ -1,22 +1,30 @@
-server:
-  servlet:
-    context-path: /content
-  port: 63040
-#\u5FAE\u670D\u52A1\u914D\u7F6E
 spring:
   application:
     name: content-api
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.101.65:3306/xcplus_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
-    username: root
-    password: mysql
-swagger:
-  title: "\u5728\u7EBF\u6559\u80B2\u5185\u5BB9\u7BA1\u7406\u7CFB\u7EDF"
-  description: "\u5185\u5BB9\u7CFB\u7EDF\u7BA1\u7406\u7CFB\u7EDF\u5BF9\u8BFE\u7A0B\u76F8\u5173\u4FE1\u606F\u8FDB\u884C\u7BA1\u7406"
-  base-package: com.dashuju.content
-  enabled: true
-  version: 1.0.0
-logging:
-  config: classpath:log4j2-dev.xml
-
+  cloud:
+    nacos:
+      server-addr: 192.168.101.65:8848
+      discovery:
+        namespace: dev
+        group: xuecheng-plus-project
+      config:
+        namespace: dev
+        group: xuecheng-plus-project
+        file-extension: yaml
+        refresh-enabled: true
+        extension-configs:
+          - data-id: content-service-dev.yaml
+            group: xuecheng-plus-project
+            refresh: true
+        shared-configs:
+          - data-id: swagger-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
+          - data-id: logging-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
+          - data-id: freemarker-config-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
+  profiles:
+    active: dev

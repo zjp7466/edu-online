@@ -10,6 +10,7 @@ import com.dashuju.content.mapper.CourseCategoryMapper;
 import com.dashuju.content.mapper.CourseMarketMapper;
 import com.dashuju.content.model.dto.AddCourseDto;
 import com.dashuju.content.model.dto.CourseBaseInfoDto;
+import com.dashuju.content.model.dto.EditCourseDto;
 import com.dashuju.content.model.dto.QueryCourseParamsDto;
 import com.dashuju.content.model.po.CourseBase;
 import com.dashuju.content.model.po.CourseCategory;
@@ -152,6 +153,26 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         courseBaseInfoDto.setMtName(courseCategoryByMt.getName());
         return courseBaseInfoDto;
 
+    }
+
+    @Transactional
+    @Override
+    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto) {
+        Long id = dto.getId();
+        CourseBase courseBase = courseBaseMapper.selectById(id);
+        if (courseBase == null){
+            EduOnlineException.cast("不存在此课程");
+        }
+        if (!courseBase.getCompanyId().equals(companyId)) EduOnlineException.cast("此课程不属于你机构");
+        BeanUtils.copyProperties(dto,courseBase);
+        courseBase.setChangeDate(LocalDateTime.now());
+        courseBase.setChangePeople("zjp");
+        courseBaseMapper.updateById(courseBase);
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(dto,courseMarket);
+        saveCourseMarket(courseMarket);
+        CourseBaseInfoDto courseBaseInfo = this.getCourseBaseInfo(id);
+        return courseBaseInfo;
     }
 
 }

@@ -25,11 +25,37 @@ Content-Type: application/json
   "validDays": 365,
   "mt": "1-1",
   "st": "1-1-1",
-  "name": "",
+  "name": "小肥",
   "pic": "",
   "teachmode": "200002",
-  "users": "zjp",
+  "users": "1-1",
   "tags": "",
   "grade": "204001",
   "description": ""
 }
+
+### 课程计划删除
+DELETE {{content_host}}/content/teachplan/282
+
+### delete media
+DELETE {{gateway_host}}/media/23f83ae728bd1269eee7ea2236e79644
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

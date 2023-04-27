@@ -4,6 +4,7 @@ import com.dashuju.base.model.PageParams;
 import com.dashuju.base.model.PageResult;
 import com.dashuju.content.model.dto.AddCourseDto;
 import com.dashuju.content.model.dto.CourseBaseInfoDto;
+import com.dashuju.content.model.dto.EditCourseDto;
 import com.dashuju.content.model.dto.QueryCourseParamsDto;
 import com.dashuju.content.model.po.CourseBase;
 
@@ -24,6 +25,21 @@ public interface CourseBaseInfoService {
      * @return
      */
     CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
+
+    /**
+     * 根据id查询课程
+     * @param courseId
+     * @return
+     */
+    CourseBaseInfoDto getCourseBaseInfo(long courseId);
+
+    /**
+     * 课程修改
+     * @param companyId
+     * @param dto
+     * @return
+     */
+    CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto);
 }
 /**
  * @description TODO

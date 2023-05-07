@@ -12,6 +12,19 @@
 
     <packaging>pom</packaging>
 
+    <modules>
+        <module>../edu-online-auth</module>
+        <module>../edu-online-checkcode</module>
+        <module>../edu-online-base</module>
+        <module>../edu-online-gateway</module>
+        <module>../edu-online-content</module>
+        <module>../edu-online-learning</module>
+        <module>../edu-online-media</module>
+        <module>../edu-online-orders</module>
+        <module>../edu-online-message-sdk</module>
+        <module>../edu-online-search</module>
+        <module>../edu-online-system</module>
+    </modules>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,6 +1,9 @@
 package com.dashuju.content.service;
 
 import com.dashuju.content.model.dto.CoursePreviewDto;
+import com.dashuju.content.model.po.CoursePublish;
+
+import java.io.File;
 
 public interface CoursePublishService {
 
@@ -9,8 +12,36 @@ public interface CoursePublishService {
      * @param courseId 课程id
      * @return com.dashuju.content.model.dto.CoursePreviewDto
      */
-    public CoursePreviewDto getCoursePreviewInfo(Long courseId);
+    CoursePreviewDto getCoursePreviewInfo(Long courseId);
 
+    /**
+     * @description 提交审核
+     * @param courseId  课程id
+     * @return void
+     */
+    void commitAudit(Long companyId,Long courseId);
+
+    /**
+     * @description 课程发布接口
+     * @param companyId 机构id
+     * @param courseId 课程id
+     * @return void
+     */
+    void publish(Long companyId,Long courseId);
+    /**
+     * @description 课程静态化
+     * @param courseId  课程id
+     * @return File 静态化文件
+     */
+    public File generateCourseHtml(Long courseId);
+    /**
+     * @description 上传课程静态化页面
+     * @param file  静态化文件
+     * @return void
+     */
+    public void  uploadCourseHtml(Long courseId,File file);
+
+    public CoursePublish getCoursePublish(Long courseId);
 
 }
 /**

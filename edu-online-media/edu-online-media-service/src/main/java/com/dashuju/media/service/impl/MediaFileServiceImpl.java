@@ -21,6 +21,7 @@ import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,8 @@ public class MediaFileServiceImpl implements MediaFileService {
     }
 
     @Override
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName) {
+
         //获取本地文件
         File file = new File(localFilePath);
         if (!file.exists()) EduOnlineException.cast("文件不存在!!!");
@@ -87,13 +89,18 @@ public class MediaFileServiceImpl implements MediaFileService {
         //文件的默认路径
         String defaultFolderPath = getDefaultFolderPath();
         //存储在minio的位置(一整串路径)
-        String s = defaultFolderPath + fileMd5 + substring;
+        //存储到minio中的对象名(带目录)
+        if(StringUtils.isEmpty(objectName)){
+            objectName =  defaultFolderPath + fileMd5 + substring;
+        }
+//      String objectName = defaultFolderPath + fileMd5 + extension;
+//      String objectName = defaultFolderPath + fileMd5 + substring;
         //上传到minio
-        boolean b = addMediaFilesToMinIO(localFilePath, mimeType, bucket_Files, s);
+        boolean b = addMediaFilesToMinIO(localFilePath, mimeType, bucket_Files, objectName);
         //文件大小
         uploadFileParamsDto.setFileSize(file.length());
         //到数据库进行记录
-        MediaFiles mediaFiles = currentProxy.addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_Files, s);
+        MediaFiles mediaFiles = currentProxy.addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_Files, objectName);
         //返回数据模型
         UploadFileResultDto uploadFileResultDto = new UploadFileResultDto();
         BeanUtils.copyProperties(mediaFiles,uploadFileResultDto);

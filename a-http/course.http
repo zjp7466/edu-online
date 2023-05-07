@@ -40,18 +40,22 @@ DELETE {{content_host}}/content/teachplan/282
 ### delete media
 DELETE {{gateway_host}}/media/23f83ae728bd1269eee7ea2236e79644
 
+###
+GET http://localhost:63070/auth/oauth/authorize?client_id=XcWebApp&response_type=code&scope=all&redirect_uri=http://www.51xuecheng.cn
+
+###
+POST http://localhost:63070/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password","password":"111111"}
+
+### 申请验证码
+POST localhost:63010/checkcode/pic
+
+### 校验验证码
+POST localhost:63010/checkcode/verify?key=checkcode:045a065a6a234e0c9702c585aea0d95a&code=1DDN
 
 
 
-
-
-
-
-
-
-
-
-
+### 查询课程发布信息
+GET localhost:63010/content/r/coursepublish/2
 
 
 

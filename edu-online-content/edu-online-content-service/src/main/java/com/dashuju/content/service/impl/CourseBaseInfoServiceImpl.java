@@ -54,7 +54,30 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         PageResult<CourseBase> courseBasePageResult = new PageResult<>(list,total,pageParams.getPageNo(),pageParams.getPageSize());
         return courseBasePageResult;
     }
+    @Override
+    public PageResult<CourseBase> queryCourseBaseList(Long companyId,PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
 
+        //构建查询条件对象
+        LambdaQueryWrapper<CourseBase> lqw = new LambdaQueryWrapper<>();
+        //机构id
+        lqw.eq(CourseBase::getCompanyId,companyId);
+        //课程名称查询
+        String courseName = queryCourseParamsDto.getCourseName();
+        lqw.like(StringUtils.isNotEmpty(courseName),CourseBase::getName,courseName);
+        //课程审核状态
+        String auditStatus = queryCourseParamsDto.getAuditStatus();
+        lqw.eq(StringUtils.isNotEmpty(auditStatus),CourseBase::getAuditStatus,auditStatus);
+        //课程发布状态
+        String publishStatus = queryCourseParamsDto.getPublishStatus();
+        lqw.eq(StringUtils.isNotEmpty(publishStatus),CourseBase::getStatus,publishStatus);
+        //分页
+        Page<CourseBase> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+        Page<CourseBase> pageResult = courseBaseMapper.selectPage(page,lqw);
+        List<CourseBase> list = pageResult.getRecords();
+        long total = pageResult.getTotal();
+        PageResult<CourseBase> courseBasePageResult = new PageResult<>(list,total,pageParams.getPageNo(),pageParams.getPageSize());
+        return courseBasePageResult;
+    }
     @Transactional
     @Override
     public CourseBaseInfoDto createCourseBase(Long companyId,AddCourseDto dto) {
